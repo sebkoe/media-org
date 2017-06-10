@@ -38,7 +38,7 @@ sub search_media_files {
             }
         } else {
             foreach my $tmp_ext (@$ext) {
-                push(@files, "$folder/$_") if $_ =~ /\.$tmp_ext$/;
+                push(@files, "$folder/$_") if $_ =~ /\.$tmp_ext$/i;
             }
         }
     }
@@ -143,8 +143,9 @@ my @sorted_files = sort(@$media_files);
 
 foreach (@sorted_files) {
     my ($filename, $dirs, $suffix) = fileparse($_);
-    
-    if($filename =~ /(.*)\.(\d{4})\./ or $filename =~ /(.*) (\d{4}) /) {
+
+
+    if($filename =~ /(.*)\.(\d{4})\./ or $filename =~ /(.*) (\d{4}) / or $filename =~ /(.*) \((\d{4})\)/) {
         handle_movie_file($_, $filename, $1, $2);
     } elsif($filename =~ /^(\d{4})\.(.*)\.1920/) {
     	handle_movie_file($_, $filename, $2, $1);
