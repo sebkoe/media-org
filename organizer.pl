@@ -144,15 +144,14 @@ my @sorted_files = sort(@$media_files);
 foreach (@sorted_files) {
     my ($filename, $dirs, $suffix) = fileparse($_);
 
-
-    if($filename =~ /(.*)\.(\d{4})\./ or $filename =~ /(.*) (\d{4}) / or $filename =~ /(.*) \((\d{4})\)/) {
+    if($filename =~ /(.*)s(\d\d?)e(\d\d?)/i) {
+        handle_show_file($_, $filename, clean_up_name($1), $2, $3);
+    } elsif($filename =~ /(.*)(\d\d)x(\d\d)\./i ) {
+        handle_show_file($_, $filename, clean_up_name($1), $2, $3);
+    } elsif($filename =~ /(.*)\.(\d{4})\./ or $filename =~ /(.*) (\d{4}) / or $filename =~ /(.*) \((\d{4})\)/) {
         handle_movie_file($_, $filename, $1, $2);
     } elsif($filename =~ /^(\d{4})\.(.*)\.1920/) {
     	handle_movie_file($_, $filename, $2, $1);
-    } elsif($filename =~ /(.*)s(\d\d?)e(\d\d?)/i) {
-        handle_show_file($_, $filename, clean_up_name($1), $2, $3);
-    } elsif($filename =~ /(.*)(\d\d)x(\d\d)/i ) {
-        handle_show_file($_, $filename, clean_up_name($1), $2, $3);
     } else {
         push(@DELETE_QUEUE, $_);
     }
